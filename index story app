@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryVerse Creator Dashboard</title>
+</head>
+<body>
+
+    <!-- This is the Header -->
+    <h1>StoryVerse Writer Studio</h1>
+    <p>Upload your latest masterpiece and set your price.</p>
+
+    <hr>
+
+    <!-- This is the Input Form where you type your story -->
+    <div>
+        <h3>Publish a New Story</h3>
+        
+        <label for="storyTitle">Story Title:</label><br>
+        <input type="text" id="storyTitle" placeholder="Enter an amazing title..." style="width: 100%; max-width: 400px; padding: 8px;"><br><br>
+
+        <label for="storyPrice">Set Price (in ₦):</label><br>
+        <input type="number" id="storyPrice" placeholder="0 for Free, or enter amount" style="padding: 8px;"><br><br>
+
+        <label for="storyContent">Write Your Story Here:</label><br>
+        <textarea id="storyContent" rows="10" placeholder="Once upon a time..." style="width: 100%; max-width: 500px; padding: 8px;"></textarea><br><br>
+
+        <!-- The Action Button -->
+        <button onclick="publishStory()">Publish & Earn</button>
+    </div>
+
+    <!-- A simple script to test that our button works -->
+    <script>
+        function publishStory() {
+            const title = document.getElementById('storyTitle').value;
+            const price = document.getElementById('storyPrice').value;
+            
+            if(title === "" || price === "") {
+                alert("Please fill out the title and price first!");
+            } else {
+                alert("Success! Your story '" + title + "' has been saved with a price of ₦" + price + ". (Next step: sending this to the backend database!)");
+            }
+        }
+    </script>
+
+</body>
+</html>
