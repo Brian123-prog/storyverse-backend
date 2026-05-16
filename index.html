@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryVerse | Multi-Vendor Creator Marketplace</title>
+    <style>
+        :root {
+            --bg-main: #0a0b10;
+            --bg-card: #131520;
+            --bg-input: #1b1e2e;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --btn-hover-gradient: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            --border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            padding: 25px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(13, 15, 24, 0.7);
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-status-bar {
+            position: absolute;
+            right: 5%;
+            top: 35%;
+            font-size: 0.9rem;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-logout:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            width: 90%;
+            max-width: 650px;
+            margin: 30px 0 10px 0;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #fff 0%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #a855f7;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            color: var(--text-main);
+            background-color: var(--bg-input);
+        }
+
+        .btn-submit {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-submit:hover {
+            background: var(--btn-hover-gradient);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .auth-toggle span {
+            color: #818cf8;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .feed-container {
+            width: 90%;
+            max-width: 650px;
+            margin: 30px 0 60px 0;
+        }
+
+        .story-post {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .feed-story-title {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #fff;
+        }
+
+        .story-author-tag {
+            font-size: 0.85rem;
+            color: #818cf8;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .price-badge { 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            font-weight: 700; 
+            font-size: 0.85rem; 
+            background: rgba(52, 211, 153, 0.1); 
+            color: #34d399; 
+            border: 1px solid rgba(52, 211, 153, 0.2); 
+        }
+
+        .btn-delete-icon {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .story-snippet { color: var(--text-muted); line-height: 1.6; }
+
+        /* Mobile specific style tracking for better phone scaling */
+        @media (max-width: 768px) {
+            .container { padding: 25px 20px; margin: 15px 0; }
+            header h1 { font-size: 1.8rem; }
+            .user-status-bar { position: static; justify-content: center; padding: 10px 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>StoryVerse</h1>
+        <div class="user-status-bar" id="userStatusBar" style="display: none;">
+            <span id="welcomeMessage"></span>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container" id="authInterface">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div class="card-title" id="authTitle" style="margin: 0;">Sign In with Email</div>
+            
+            <div id="navArrowsRow" style="display: none; gap: 12px;">
+                <button id="btnPrevStep" onclick="navigateRegisterStep(-1)" style="background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.2s;">←</button>
+                <button id="btnNextStep" onclick="navigateRegisterStep(1)" style="background: var(--accent-gradient); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.2s;">→</button>
+            </div>
+        </div>
+        
+        <div id="registerStep1">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="authEmail" placeholder="yourmail@example.com" autocomplete="new-password">
+            </div>
+            
+            <div class="form-group" id="passwordGroup">
+                <label>Password</label>
+                <input type="password" id="authPassword" placeholder="••••••••" autocomplete="new-password">
+            </div>
+
+            <div class="form-group" id="roleSelectorGroup" style="display: none;">
+                <label>Account Strategy</label>
+                <select id="authRole">
+                    <option value="creator">Creator (Write & Share Masterpieces)</option>
+                    <option value="reader">Reader (Browse & Enjoy Works)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="registerStep2" style="display: none;">
+            <div class="form-group">
+                <label style="color: #34d399;">Enter 6-Digit Live Email Verification Code</label>
+                <input type="text" id="verificationCode" placeholder="Check your Inbox" maxlength="6" style="border-color: #34d399; text-align: center; font-size: 1.4rem; letter-spacing: 6px; font-weight: bold;">
+            </div>
+        </div>
+
+        <button class="btn-submit" id="authButton" onclick="handleAuthSubmit()" style="margin-top: 10px;">Login Securely</button>
+        
+        <div class="auth-toggle" id="authToggleMsg">
+            New here? <span onclick="toggleAuthMode(true)">Create a Portal Profile</span>
+        </div>
+    </div>
+
+    <div class="container" id="creatorInterface" style="display: none;">
+        <div class="card-title">Forge Your Next Masterpiece</div>
+        <div class="form-group">
+            <label>Story Title</label>
+            <input type="text" id="storyTitle" placeholder="Ex: The Shadows of FUTA">
+        </div>
+        <div class="form-group">
+            <label>Monetization Price (₦)</label>
+            <input type="number" id="storyPrice" placeholder="Enter amount or 0 for free access">
+        </div>
+        <div class="form-group">
+            <label>Story Manuscript</label>
+            <textarea id="storyContent" rows="10" placeholder="Weave your story here..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="publishStory()">Mint & Publish Story</button>
+    </div>
+
+    <div class="feed-container" id="feedInterface" style="display: none;">
+        <div class="card-title">🌐 Global Story Stream</div>
+        <div id="storyFeed"></div>
+    </div>
+
+    <script>
+        // =====================================================================
+        // 🌐 CENTRAL INTERNET CONNECTION ENGINE MANAGMENT
+        // =====================================================================
+        // TESTING LOCALLY ON PHONES: Use your computer's local Wi-Fi IP address (e.g., "http://192.168.43.55:8000")
+        // GOING GLOBAL WORLDWIDE: Change this string to your live cloud platform address once uploaded!
+        const API_BASE_URL = "https://storyverse-backend-54xh.onrender.com"; 
+
+        let currentUserEmail = null;
+        let currentRole = null;
+        let isRegisterMode = false;
+        let activeRegisterStep = 1; 
+
+        window.onload = function() {
+            currentUserEmail = localStorage.getItem('sv_email');
+            currentRole = localStorage.getItem('sv_role');
+            if(currentUserEmail && currentRole) showDashboard();
+        };
+
+        function toggleAuthMode(register) {
+            isRegisterMode = register;
+            activeRegisterStep = 1;
+            
+            document.getElementById('authEmail').value = "";
+            document.getElementById('authPassword').value = "";
+            document.getElementById('verificationCode').value = "";
+            
+            document.getElementById('registerStep1').style.display = 'block';
+            document.getElementById('registerStep2').style.display = 'none';
+            document.getElementById('passwordGroup').style.display = 'block';
+            
+            if (register) {
+                document.getElementById('authTitle').innerText = "Create Profile";
+                document.getElementById('authButton').innerText = "Send Verification Code";
+                document.getElementById('roleSelectorGroup').style.display = "block";
+                document.getElementById('navArrowsRow').style.display = 'flex'; 
+                updateArrowButtonsUI();
+                document.getElementById('authToggleMsg').innerHTML = `Have an account? <span onclick="toggleAuthMode(false)">Sign In</span>`;
+            } else {
+                document.getElementById('authTitle').innerText = "Sign In with Email";
+                document.getElementById('authButton').innerText = "Login Securely";
+                document.getElementById('roleSelectorGroup').style.display = "none";
+                document.getElementById('navArrowsRow').style.display = 'none'; 
+                document.getElementById('authToggleMsg').innerHTML = `New here? <span onclick="toggleAuthMode(true)">Create a Portal Profile</span>`;
+            }
+        }
+
+        function navigateRegisterStep(direction) {
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+
+            if (direction === 1 && activeRegisterStep === 1) {
+                if(!email || !password) { alert("Please complete your email and password inputs first!"); return; }
+                handleAuthSubmit();
+                return;
+            }
+
+            activeRegisterStep += direction;
+            if (activeRegisterStep < 1) activeRegisterStep = 1;
+            if (activeRegisterStep > 2) activeRegisterStep = 2;
+
+            renderStepVisibility();
+        }
+
+        function renderStepVisibility() {
+            if (activeRegisterStep === 1) {
+                document.getElementById('registerStep1').style.display = 'block';
+                document.getElementById('registerStep2').style.display = 'none';
+                document.getElementById('authButton').innerText = "Send Verification Code";
+            } else {
+                document.getElementById('registerStep1').style.display = 'none';
+                document.getElementById('registerStep2').style.display = 'block';
+                document.getElementById('authButton').innerText = "Confirm Code & Activate Account";
+            }
+            updateArrowButtonsUI();
+        }
+
+        function updateArrowButtonsUI() {
+            const prevBtn = document.getElementById('btnPrevStep');
+            if (activeRegisterStep === 1) {
+                prevBtn.style.opacity = "0.2";
+                prevBtn.style.pointerEvents = "none";
+            } else {
+                prevBtn.style.opacity = "1";
+                prevBtn.style.pointerEvents = "auto";
+            }
+        }
+
+        async function handleAuthSubmit() {
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const role = document.getElementById('authRole').value;
+
+            if(!email) { alert("Please enter your email!"); return; }
+
+            if(isRegisterMode && activeRegisterStep === 2) {
+                const code = document.getElementById('verificationCode').value.trim();
+                if(!code) { alert("Enter verification code!"); return; }
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/verify-code`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, code })
+                    });
+                    const result = await response.json();
+                    if(!response.ok) { alert(result.detail); return; }
+
+                    alert("🎉 Email verified successfully! Sign in to access the platform.");
+                    toggleAuthMode(false);
+                } catch(e) { alert("Connection error while verifying your code."); }
+                return;
+            }
+
+            if(isRegisterMode && activeRegisterStep === 1) {
+                if(!password) { alert("Set a profile password!"); return; }
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password, role })
+                    });
+                    const result = await response.json();
+                    if(!response.ok) { alert(result.detail); return; }
+
+                    alert(`📩 Verification Code Sent to ${email}!`);
+                    activeRegisterStep = 2;
+                    renderStepVisibility();
+                } catch(e) { alert("Unable to connect to the registration server."); }
+                return;
+            }
+
+            if(!password) { alert("Enter your password!"); return; }
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await response.json();
+                if(!response.ok) { alert(result.detail); return; }
+
+                currentUserEmail = result.email;
+                currentRole = result.role;
+                localStorage.setItem('sv_email', currentUserEmail);
+                localStorage.setItem('sv_role', currentRole);
+                showDashboard();
+            } catch(e) { alert("Invalid email credentials or incorrect password."); }
+        }
+
+        function showDashboard() {
+            document.getElementById('authInterface').style.display = 'none';
+            document.getElementById('userStatusBar').style.display = 'flex';
+            document.getElementById('welcomeMessage').innerHTML = `👤 Profile: <strong>${currentUserEmail}</strong> (${currentRole.toUpperCase()})`;
+            document.getElementById('creatorInterface').style.display = (currentRole === 'creator') ? 'block' : 'none';
+            document.getElementById('feedInterface').style.display = 'block';
+            loadStoriesFeed();
+        }
+
+        function logout() {
+            localStorage.clear();
+            document.getElementById('userStatusBar').style.display = 'none';
+            document.getElementById('creatorInterface').style.display = 'none';
+            document.getElementById('feedInterface').style.display = 'none';
+            document.getElementById('authInterface').style.display = 'block';
+            toggleAuthMode(false);
+        }
+
+        async function publishStory() {
+            const title = document.getElementById('storyTitle').value;
+            const price = document.getElementById('storyPrice').value;
+            const content = document.getElementById('storyContent').value;
+            if(!title || !price || !content) { alert("Please complete all properties."); return; }
+
+            try {
+                await fetch(`${API_BASE_URL}/api/upload-story`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, price: parseFloat(price), content, author: currentUserEmail })
+                });
+                document.getElementById('storyTitle').value = "";
+                document.getElementById('storyPrice').value = "";
+                document.getElementById('storyContent').value = "";
+                loadStoriesFeed();
+            } catch(e) { alert("Failed to upload manuscript to database."); }
+        }
+
+        async function loadStoriesFeed() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/get-stories`);
+                const stories = await response.json();
+                const feedContainer = document.getElementById('storyFeed');
+                feedContainer.innerHTML = ""; 
+
+                if(stories.length === 0) {
+                    feedContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center;">No works posted to the stream grid yet.</p>`;
+                    return;
+                }
+
+                for(let i = stories.length - 1; i >= 0; i--) {
+                    const story = stories[i];
+                    const badgeText = story.price == 0 ? "FREE ACCESS" : `₦${story.price}`;
+                    const deleteBtn = (currentUserEmail === story.author) ? `<button class="btn-delete-icon" onclick="deleteStory(${story.id})">🗑️ Delete</button>` : '';
+
+                    feedContainer.innerHTML += `
+                        <div class="story-post" id="story-card-${story.id}">
+                            <div class="story-header">
+                                <h4 class="feed-story-title">${story.title}</h4>
+                                <div class="badge-container"><span class="price-badge">${badgeText}</span>${deleteBtn}</div>
+                            </div>
+                            <span class="story-author-tag">✍️ Author Email: ${story.author}</span>
+                            <p class="story-snippet">${story.content}</p>
+                        </div>
+                    `;
+                }
+            } catch (e) {}
+        }
+
+        async function deleteStory(storyId) {
+            if (!confirm("Are you sure you want to permanently delete this story?")) return;
+            await fetch(`${API_BASE_URL}/api/delete-story/${storyId}`, { method: 'DELETE' });
+            loadStoriesFeed();
+        }
+    </script>
+</body>
+</html>
